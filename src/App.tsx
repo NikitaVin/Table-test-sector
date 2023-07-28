@@ -1,22 +1,29 @@
-import { MainPage } from './pages/mainPage/MainPage';
-import { NotFound } from './pages/notFound';
-import { Routes, Route } from 'react-router-dom';
-import './scss/app.scss';
-import { Cart } from './pages/cart';
-import { FullTown } from './pages/FullTown';
-import { MainLayout } from './layouts/MainLayout';
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import { Header } from './components/Header/Header';
+import { MainContent } from './pages/MainContent/MainContent';
+import { DivApp, DivRoot } from './App.styles';
+import { GlobalStyles } from './styles/global.styles';
 
 const App: FC = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 10;
+
+  const toFirstPage = () => {
+    setCurrentPage(1);
+  };
+
   return (
-    <Routes>
-      <Route path="/" element={<MainLayout />}>
-        <Route path="" element={<MainPage />} />
-        <Route path="town/:id" element={<FullTown />} />
-        <Route path="cart" element={<Cart />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+    <DivApp>
+      <GlobalStyles />
+      <DivRoot>
+        <Header toFirstPage={toFirstPage} />
+        <MainContent
+          currentPage={currentPage}
+          ordersPerPage={ordersPerPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </DivRoot>
+    </DivApp>
   );
 };
 
